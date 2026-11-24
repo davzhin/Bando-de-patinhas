@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sanji's Stray Rescue</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- HUD Fixo no Topo -->
+    <div class="hud">
+      <div class="hud-item">
+        🐾 Patinhas:
+        <span id="score">0</span>
+      </div>
+      <div class="hud-item hud-rps">
+        ⚡ Por seg:
+        <span id="rps">0</span>
+      </div>
+    </div>
+
+    <!-- TELA 1: CONVÉS PRINCIPAL -->
+    <section class="main-stage" id="top-stage">
+      <div class="scenery">
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="boat"></div>
+      </div>
+
+      <div class="deck-characters">
+        <!-- CHOPPER + ANIMAIS NO CONVÉS -->
+        <div id="chopper-area" class="hidden">
+          <div class="pixel-cat hidden" id="cat-pet">
+            <div class="cat-ears"></div>
+          </div>
+          <div class="pixel-dog">
+            <div class="dog-ear"></div>
+            <div class="dog-tail"></div>
+          </div>
+          <div class="chopper">
+            <div class="hat-top"><div class="hat-x"></div></div>
+            <div class="hat-brim"></div>
+            <div class="chopper-face">
+              <div class="chopper-nose"></div>
+            </div>
+            <div class="chopper-body"></div>
+          </div>
+        </div>
+
+        <!-- ROBIN NO CONVÉS -->
+        <div id="robin-area" class="hidden">
+          <div class="poneglyph-mini hidden" id="deck-poneglyph"></div>
+          <div class="robin">
+            <div class="robin-hair-back"></div>
+            <div class="robin-face">
+              <div class="robin-hair-top"></div>
+              <div class="robin-eye"></div>
+            </div>
+            <div class="robin-outfit"></div>
+            <div class="robin-book-hand"></div>
+          </div>
+        </div>
+
+        <!-- SANJI NO CENTRO -->
+        <div class="sanji-wrapper">
+          <div id="sanji" onclick="flipPan(event)">
+            <div class="head">
+              <div class="hair"></div>
+              <div class="hair-drop"></div>
+              <div class="eye"></div>
+            </div>
+            <div class="body">
+              <div class="collar"></div>
+              <div class="buttons">
+                <div class="btn"></div>
+                <div class="btn"></div>
+                <div class="btn"></div>
+                <div class="btn"></div>
+              </div>
+            </div>
+            <div class="leg left-leg"></div>
+            <div class="leg right-leg" id="sanji-kick-leg"></div>
+
+            <div class="arm-pan">
+              <div class="arm"></div>
+              <div class="handle"></div>
+              <div class="pan-bowl"></div>
+            </div>
+          </div>
+          <p class="instruction">Clique no Sanji!</p>
+        </div>
+
+        <!-- NAMI + TESOURO NO CONVÉS -->
+        <div id="nami-area" class="hidden">
+          <div class="nami">
+            <div class="nami-hair-back"></div>
+            <div class="nami-face">
+              <div class="nami-hair-top"></div>
+              <div class="nami-eye"></div>
+            </div>
+            <div class="nami-top"></div>
+            <div class="nami-skirt"></div>
+            <div class="berry-sack">₿</div>
+          </div>
+          <div class="berry-chest hidden" id="deck-chest"></div>
+        </div>
+
+        <!-- FRANKY + ABRIGO NO CONVÉS -->
+        <div id="franky-area" class="hidden">
+          <div class="franky">
+            <div class="franky-hair"></div>
+            <div class="franky-face"><div class="franky-glasses"></div></div>
+            <div class="franky-body"></div>
+          </div>
+          <div class="shelter">
+            <div class="shelter-upper hidden" id="shelter-tier2">SUPER</div>
+            <div class="shelter-roof"></div>
+            <div class="shelter-wall">
+              <div class="shelter-door"></div>
+            </div>
+            <div class="food-bowl"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="scroll-arrow" onclick="scrollToFloors()">
+        <span>ANDARES & OFICINAS</span>
+        <div class="arrow-icon">▼</div>
+      </button>
+    </section>
+
+    <!-- TELA 2: ANDARES INTERATIVOS -->
+    <section class="floors-container" id="floors">
+      <!-- ANDAR 1: COZINHA DO SANJI -->
+      <div class="floor floor-sanji">
+        <div class="floor-header">
+          <div class="floor-info">
+            <h3>🔥 Andar 1: Cozinha do Navio</h3>
+            <p>
+              Força do clique: +
+              <span id="click-power">1</span>
+              por clique
+            </p>
+          </div>
+          <div class="floor-actions">
+            <button id="btn-knife" onclick="buyKnife()">
+              🔪 Afiar Facas (+1 Clique)
+              <br />
+              <small>
+                Custo:
+                <span id="knife-cost">15</span>
+              </small>
+            </button>
+            <button
+              id="btn-diable"
+              class="btn-enhance"
+              onclick="buyDiableJambe()"
+            >
+              🔥 Diable Jambe (2x Clique)
+              <br />
+              <small id="diable-status">Custo: 50</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="floor-stage stage-kitchen">
+          <div class="kitchen-stove">
+            <div class="stove-flame" id="stove-flame"></div>
+            <div class="stove-pot"></div>
+          </div>
+          <div class="knife-rack" id="knife-rack"></div>
+          <div class="kitchen-counter">
+            <div class="plate-stack"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANDAR 2: CONSULTÓRIO DO CHOPPER -->
+      <div class="floor floor-chopper">
+        <div class="floor-header">
+          <div class="floor-info">
+            <h3>🦌 Andar 2: Consultório do Chopper</h3>
+            <p>
+              Choppers:
+              <span id="chopper-count">0</span>
+              | Gera:
+              <span id="chopper-rps">0</span>
+              /s
+            </p>
+          </div>
+          <div class="floor-actions">
+            <button id="btn-chopper" onclick="buyChopper()">
+              🩺 Chamar Chopper (+1/s)
+              <br />
+              <small>
+                Custo:
+                <span id="chopper-cost">10</span>
+              </small>
+            </button>
+            <button
+              id="btn-rumble"
+              class="btn-enhance"
+              onclick="buyRumbleBall()"
+            >
+              💊 Rumble Ball (2x Chopper)
+              <br />
+              <small id="rumble-status">Custo: 60</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="floor-stage stage-clinic">
+          <div class="clinic-cross"></div>
+          <div class="rumble-shelf hidden" id="rumble-shelf">
+            <div class="rumble-pill"></div>
+            <div class="rumble-pill"></div>
+            <div class="rumble-pill"></div>
+          </div>
+
+          <div class="clinic-staff hidden" id="clinic-staff">
+            <div class="chopper">
+              <div class="hat-top"><div class="hat-x"></div></div>
+              <div class="hat-brim"></div>
+              <div class="chopper-face">
+                <div class="chopper-nose"></div>
+              </div>
+              <div class="chopper-body doctor-coat"></div>
+            </div>
+            <div class="exam-table">
+              <div class="table-pillow"></div>
+            </div>
+          </div>
+
+          <div class="dynamic-items" id="clinic-pets-list"></div>
+        </div>
+      </div>
+
+      <!-- ANDAR 3: MARCENARIA DO FRANKY -->
+      <div class="floor floor-franky">
+        <div class="floor-header">
+          <div class="floor-info">
+            <h3>🤖 Andar 3: Marcenaria do Franky</h3>
+            <p>
+              Abrigos:
+              <span id="franky-count">0</span>
+              | Gera:
+              <span id="franky-rps">0</span>
+              /s
+            </p>
+          </div>
+          <div class="floor-actions">
+            <button id="btn-franky" onclick="buyFranky()">
+              🔨 Construir Abrigo (+5/s)
+              <br />
+              <small>
+                Custo:
+                <span id="franky-cost">50</span>
+              </small>
+            </button>
+            <button id="btn-cola" class="btn-enhance" onclick="buySuperCola()">
+              🥤 Super Cola (2x Abrigos)
+              <br />
+              <small id="cola-status">Custo: 150</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="floor-stage stage-workshop">
+          <div class="tool-board">
+            <div class="wall-saw"></div>
+            <div class="wall-hammer"></div>
+          </div>
+
+          <div class="workshop-staff hidden" id="workshop-staff">
+            <div class="franky">
+              <div class="franky-hair"></div>
+              <div class="franky-face"><div class="franky-glasses"></div></div>
+              <div class="franky-body"></div>
+              <div class="franky-hammer"></div>
+            </div>
+            <div class="workbench">
+              <div class="wood-plank"></div>
+              <div class="cola-crate hidden" id="cola-crate">COLA</div>
+            </div>
+          </div>
+
+          <div class="dynamic-items" id="workshop-houses-list"></div>
+        </div>
+      </div>
+
+      <!-- ANDAR 4: TESOURARIA DA NAMI -->
+      <div class="floor floor-nami">
+        <div class="floor-header">
+          <div class="floor-info">
+            <h3>🍊 Andar 4: Tesouraria da Nami</h3>
+            <p>
+              Fundos:
+              <span id="nami-count">0</span>
+              | Arrecada:
+              <span id="nami-rps">0</span>
+              /s
+            </p>
+          </div>
+          <div class="floor-actions">
+            <button id="btn-nami" onclick="buyNami()">
+              💰 Arrecadar Berries (+15/s)
+              <br />
+              <small>
+                Custo:
+                <span id="nami-cost">200</span>
+              </small>
+            </button>
+            <button
+              id="btn-vault"
+              class="btn-enhance"
+              onclick="buyBerryVault()"
+            >
+              🏦 Cofre de Berries (2x Nami)
+              <br />
+              <small id="vault-status">Custo: 500</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="floor-stage stage-treasury">
+          <div class="world-map">
+            <div class="map-island-1"></div>
+            <div class="map-island-2"></div>
+          </div>
+
+          <div class="treasury-staff hidden" id="treasury-staff">
+            <div class="nami">
+              <div class="nami-hair-back"></div>
+              <div class="nami-face">
+                <div class="nami-hair-top"></div>
+                <div class="nami-eye"></div>
+              </div>
+              <div class="nami-top"></div>
+              <div class="nami-skirt"></div>
+            </div>
+            <div class="finance-desk">
+              <div class="ledger-book">₿</div>
+              <div class="golden-safe hidden" id="golden-safe">COFRE</div>
+            </div>
+          </div>
+
+          <div class="dynamic-items" id="treasury-chests-list"></div>
+        </div>
+      </div>
+
+      <!-- ANDAR 5: BIBLIOTECA DA ROBIN -->
+      <div class="floor floor-robin">
+        <div class="floor-header">
+          <div class="floor-info">
+            <h3>📚 Andar 5: Adoções da Robin</h3>
+            <p>
+              Campanhas:
+              <span id="robin-count">0</span>
+              | Gera:
+              <span id="robin-rps">0</span>
+              /s
+            </p>
+          </div>
+          <div class="floor-actions">
+            <button id="btn-robin" onclick="buyRobin()">
+              📖 Divulgar Adoção (+40/s)
+              <br />
+              <small>
+                Custo:
+                <span id="robin-cost">800</span>
+              </small>
+            </button>
+            <button
+              id="btn-poneglyph"
+              class="btn-enhance"
+              onclick="buyPoneglyph()"
+            >
+              🟦 Poneglyph (2x Robin)
+              <br />
+              <small id="poneglyph-status">Custo: 2000</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="floor-stage stage-robin">
+          <div class="wall-poster"></div>
+
+          <!-- Robin + Escrivaninha na Biblioteca -->
+          <div class="library-staff hidden" id="library-staff">
+            <div class="robin">
+              <div class="robin-hair-back"></div>
+              <div class="robin-face">
+                <div class="robin-hair-top"></div>
+                <div class="robin-eye"></div>
+              </div>
+              <div class="robin-outfit"></div>
+            </div>
+            <div class="reading-desk">
+              <div class="open-book"></div>
+              <div class="poneglyph-block hidden" id="desk-poneglyph"></div>
+            </div>
+          </div>
+
+          <!-- Livros de Adoção aparecem aqui -->
+          <div class="dynamic-items" id="robin-books-list"></div>
+        </div>
+      </div>
+
+      <button class="scroll-up-btn" onclick="scrollToTop()">
+        ▲ Voltar para o Convés
+      </button>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
