@@ -1,0 +1,760 @@
+/* Configurações gerais da página */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: monospace;
+    color: white;
+    background-color: #1e1e1e;
+    overflow-x: hidden;
+}
+
+/* Classe utilitária que o JavaScript adiciona/remove para esconder ou revelar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* ================================
+   JANELAS DE INÍCIO E VITÓRIA (MODAIS)
+   ================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 999; /* Fica acima de todo o jogo */
+}
+
+.modal-box {
+    background-color: #2c1e16;
+    border: 4px solid #f1c40f;
+    border-radius: 8px;
+    max-width: 520px;
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.modal-box h1 {
+    margin: 0 0 10px 0;
+    color: #f1c40f;
+    font-size: 26px;
+    text-shadow: 2px 2px #000;
+}
+
+.modal-subtitulo {
+    color: #ecf0f1;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.regras-lista {
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 2px solid #5c3a21;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.regras-lista h3 {
+    margin: 0 0 10px 0;
+    color: #ff9f43;
+    font-size: 16px;
+}
+
+.regras-lista ul {
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.regras-lista li {
+    margin-bottom: 6px;
+}
+
+.btn-modal {
+    background-color: #2ecc71;
+    color: #000;
+    border: 3px solid #000;
+    padding: 12px 24px;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-modal:hover {
+    background-color: #27ae60;
+}
+
+/* ================================
+   HUD FIXO NO TOPO
+   ================================ */
+.hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 54px;
+    background-color: rgba(0, 0, 0, 0.88);
+    border-bottom: 4px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 8px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #f1c40f;
+    z-index: 100;
+}
+
+.hud-rps {
+    color: #2ecc71;
+    font-size: 15px;
+}
+
+.hud-controles {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-hud {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 10px;
+    border: 2px solid #000;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.btn-meta {
+    background-color: #f1c40f;
+    color: #000;
+}
+
+.btn-meta:disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.btn-reset {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* ================================
+   TELA 1: CONVÉS PRINCIPAL
+   ================================ */
+.main-stage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Degradê em faixas sólidas para simular céu, mar, madeira e grama */
+    background: linear-gradient(
+        to bottom,
+        #4facfe 0%,     
+        #4facfe 45%,    
+        #0a74da 45%,    
+        #0a74da 60%,    
+        #8b5a2b 60%,    
+        #8b5a2b 63%,    
+        #2ecc71 63%,    
+        #2ecc71 100%
+    );
+    border-bottom: 6px solid #000;
+    overflow: hidden;
+}
+
+.scenery {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none; /* Garante que nuvens e cenário não bloqueiem cliques */
+}
+
+.sun { position: absolute; top: 65px; right: 80px; width: 50px; height: 50px; background-color: #f1c40f; }
+
+.cloud { position: absolute; background-color: #fff; width: 60px; height: 20px; opacity: 0.85; }
+.cloud::before, .cloud::after { content: ''; position: absolute; background-color: #fff; }
+.cloud::before { width: 30px; height: 20px; top: -10px; left: 10px; }
+.cloud::after { width: 20px; height: 10px; top: 20px; left: 20px; }
+
+.cloud-1 { top: 75px; left: 10%; animation: floatCloud 25s linear infinite; }
+.cloud-2 { top: 130px; left: 60%; animation: floatCloud 35s linear infinite reverse; }
+.cloud-3 { top: 60px; left: 80%; animation: floatCloud 20s linear infinite; }
+
+@keyframes floatCloud {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(50px); }
+    100% { transform: translateX(0); }
+}
+
+.boat {
+    position: absolute;
+    top: 48%;
+    left: -10%;
+    width: 40px;
+    height: 12px;
+    background-color: #5c3a21;
+    border-radius: 2px 2px 10px 10px;
+    animation: sailBoat 35s linear infinite;
+}
+.boat::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    left: 15px;
+    border-left: 2px solid #deb887;
+    border-right: 20px solid transparent;
+    border-bottom: 25px solid #fff;
+}
+
+@keyframes sailBoat {
+    0% { transform: translateX(0vw) translateY(0); }
+    50% { transform: translateX(60vw) translateY(2px); }
+    100% { transform: translateX(120vw) translateY(0); }
+}
+
+/* ================================
+   PERSONAGENS NO CONVÉS
+   ================================ */
+.deck-characters {
+    position: absolute;
+    bottom: 13%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 0 15px;
+    z-index: 10;
+}
+
+.sanji-wrapper {
+    text-align: center;
+    user-select: none;
+}
+
+.instruction {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* SANJI EM PIXEL ART */
+#sanji {
+    position: relative;
+    width: 60px;
+    height: 105px;
+    margin: 0 auto;
+    cursor: pointer;
+    z-index: 15;
+}
+.head { width: 64px; height: 55px; background-color: #fcdcb3; position: absolute; top: 0; left: -2px; border-radius: 4px; z-index: 2; }
+.hair { width: 100%; height: 25px; background-color: #ffdf00; border-radius: 4px 4px 0 0; position: absolute; top: 0; }
+.hair-drop { width: 30px; height: 15px; background-color: #ffdf00; position: absolute; top: 25px; right: 0; border-radius: 0 0 0 8px; }
+.eye { width: 4px; height: 10px; background-color: #000; position: absolute; top: 30px; left: 20px; }
+.body { width: 44px; height: 40px; background-color: #000; position: absolute; top: 52px; left: 8px; border-radius: 4px; z-index: 1; }
+.collar { width: 12px; height: 10px; background-color: #3498db; margin: 0 auto; }
+.buttons { display: flex; flex-wrap: wrap; width: 16px; gap: 4px; margin: 5px auto 0; }
+.btn { width: 4px; height: 4px; background-color: #f1c40f; }
+.leg { width: 12px; height: 15px; background-color: #000; position: absolute; top: 90px; }
+.left-leg { left: 14px; }
+.right-leg { right: 14px; }
+
+.diable-fire {
+    background-color: #ff4500 !important;
+    box-shadow: 0 0 10px #ff9f43, 0 -5px 8px #ff0000;
+}
+
+.arm-pan {
+    position: absolute;
+    top: 60px;
+    right: -40px;
+    width: 55px;
+    height: 20px;
+    transform-origin: left center;
+    z-index: 3;
+    animation: flambando 0.4s infinite alternate ease-in-out;
+}
+.arm { width: 18px; height: 8px; background-color: #000; position: absolute; left: 0; top: 6px; }
+.handle { width: 15px; height: 4px; background-color: #222; position: absolute; left: 16px; top: 8px; }
+.pan-bowl {
+    width: 30px;
+    height: 14px;
+    background-color: #555;
+    position: absolute;
+    left: 28px;
+    top: 3px;
+    border-radius: 2px 2px 15px 15px;
+    border: 2px solid #333;
+    border-top: none;
+}
+
+@keyframes flambando {
+    0% { transform: rotate(0deg) translateX(0); }
+    100% { transform: rotate(-10deg) translateX(3px) translateY(-2px); }
+}
+.pan-active { animation: clickPan 0.15s ease-out !important; }
+@keyframes clickPan {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-40deg) translateY(-15px); }
+    100% { transform: rotate(0deg); }
+}
+
+/* SPRITES CHOPPER & ANIMAIS */
+#chopper-area { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 35px; }
+.chopper { position: relative; width: 36px; height: 62px; animation: bounceIdle 0.8s infinite alternate; }
+.hat-top { width: 26px; height: 18px; background-color: #ff7eb9; margin: 0 auto; position: relative; border-radius: 3px 3px 0 0; }
+.hat-x { width: 8px; height: 8px; background-color: #fff; position: absolute; top: 5px; left: 9px; }
+.hat-brim { width: 36px; height: 5px; background-color: #ff5ca8; border-radius: 2px; }
+.chopper-face { width: 28px; height: 20px; background-color: #c68642; margin: 0 auto; position: relative; }
+.chopper-nose { width: 6px; height: 4px; background-color: #2980b9; position: absolute; top: 8px; left: 11px; }
+.chopper-body { width: 22px; height: 18px; background-color: #c68642; margin: 0 auto; border-top: 5px solid #e74c3c; }
+.doctor-coat { background-color: #fff !important; border-top: 4px solid #3498db !important; border-left: 2px solid #bdc3c7; border-right: 2px solid #bdc3c7; }
+
+.pixel-dog { position: relative; width: 24px; height: 16px; background-color: #e67e22; border-radius: 3px; }
+.pixel-dog::before { content: ''; position: absolute; top: -7px; right: 0; width: 11px; height: 11px; background-color: #e67e22; }
+.dog-ear { position: absolute; top: -5px; right: 7px; width: 4px; height: 7px; background-color: #8e44ad; }
+.dog-tail { position: absolute; top: -4px; left: -4px; width: 6px; height: 4px; background-color: #d35400; animation: wag 0.3s infinite alternate; }
+
+.pixel-cat { position: relative; width: 20px; height: 14px; background-color: #95a5a6; border-radius: 3px; }
+.pixel-cat::before { content: ''; position: absolute; top: -6px; right: 0; width: 9px; height: 9px; background-color: #95a5a6; }
+.cat-ears { position: absolute; top: -9px; right: 1px; width: 7px; height: 3px; border-left: 3px solid #7f8c8d; border-right: 3px solid #7f8c8d; }
+
+@keyframes wag { from { transform: rotate(-15deg); } to { transform: rotate(25deg); } }
+@keyframes bounceIdle { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+
+/* SPRITES NICO ROBIN (Com dois olhos usando box-shadow) */
+#robin-area { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 35px; }
+.robin { position: relative; width: 34px; height: 70px; animation: bounceIdle 1s infinite alternate; }
+.robin-hair-back { position: absolute; top: 4px; left: 1px; width: 32px; height: 42px; background-color: #1c1c1c; border-radius: 6px 6px 2px 2px; z-index: 1; }
+.robin-face { position: relative; width: 26px; height: 24px; background-color: #f5cba7; margin: 0 auto; border-radius: 4px; z-index: 2; }
+.robin-hair-top { width: 100%; height: 9px; background-color: #1c1c1c; border-radius: 4px 4px 0 0; }
+.robin-eye { width: 3px; height: 6px; background-color: #2980b9; position: absolute; top: 12px; left: 6px; box-shadow: 11px 0 0 #2980b9; }
+.robin-outfit { position: relative; width: 24px; height: 34px; background-color: #8e44ad; margin: 0 auto; border-top: 4px solid #5b2c6f; border-bottom: 10px solid #f5cba7; z-index: 2; }
+
+.robin-book-hand {
+    position: absolute;
+    bottom: 24px;
+    right: -10px;
+    width: 14px;
+    height: 16px;
+    background-color: #f1c40f;
+    border: 2px solid #000;
+    z-index: 3;
+}
+
+.poneglyph-mini {
+    width: 20px;
+    height: 20px;
+    background-color: #1f3a93;
+    border: 2px solid #000;
+    box-shadow: 0 0 8px #00d2d3;
+}
+
+/* SPRITES NAMI & BERRIES (Com dois olhos usando box-shadow) */
+#nami-area { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 35px; }
+.nami { position: relative; width: 34px; height: 68px; animation: bounceIdle 0.9s infinite alternate; }
+.nami-hair-back { position: absolute; top: 4px; left: 1px; width: 32px; height: 36px; background-color: #ff7f00; border-radius: 6px 6px 2px 2px; z-index: 1; }
+.nami-face { position: relative; width: 26px; height: 24px; background-color: #fcdcb3; margin: 0 auto; border-radius: 4px; z-index: 2; }
+.nami-hair-top { width: 100%; height: 9px; background-color: #ff7f00; border-radius: 4px 4px 0 0; }
+.nami-eye { width: 3px; height: 6px; background-color: #000; position: absolute; top: 12px; left: 6px; box-shadow: 11px 0 0 #000; }
+.nami-top { position: relative; width: 22px; height: 18px; margin: 0 auto; background: repeating-linear-gradient(to bottom, #fff, #fff 3px, #3498db 3px, #3498db 6px); z-index: 2; }
+.nami-skirt { position: relative; width: 24px; height: 16px; background-color: #2980b9; margin: 0 auto; border-bottom: 10px solid #fcdcb3; z-index: 2; }
+
+.berry-sack {
+    position: absolute;
+    bottom: 10px;
+    right: -12px;
+    width: 16px;
+    height: 18px;
+    background-color: #d4ac0d;
+    border: 2px solid #7d6608;
+    border-radius: 4px 4px 6px 6px;
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.berry-chest {
+    width: 30px;
+    height: 22px;
+    background-color: #f1c40f;
+    border: 3px solid #7d6608;
+    border-top: 6px solid #e67e22;
+    position: relative;
+}
+.berry-chest::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 10px;
+    width: 4px;
+    height: 6px;
+    background-color: #000;
+}
+
+/* SPRITES FRANKY & ABRIGO */
+#franky-area { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 35px; }
+.franky { position: relative; width: 40px; height: 75px; }
+.franky-hair { width: 32px; height: 14px; background-color: #00d2d3; margin: 0 auto; border-radius: 4px 4px 0 0; }
+.franky-face { width: 28px; height: 20px; background-color: #fcdcb3; margin: 0 auto; position: relative; }
+.franky-glasses { width: 24px; height: 6px; background-color: #000; position: absolute; top: 5px; left: 2px; }
+.franky-body { width: 40px; height: 35px; background-color: #ff4757; border-bottom: 8px solid #1e272e; }
+
+.shelter { position: relative; width: 64px; text-align: center; }
+.shelter-upper { background-color: #f1c40f; color: #000; font-size: 10px; font-weight: bold; padding: 2px; border: 2px solid #000; }
+.shelter-roof { width: 0; height: 0; border-left: 32px solid transparent; border-right: 32px solid transparent; border-bottom: 22px solid #c0392b; }
+.shelter-wall { width: 56px; height: 36px; background-color: #a0522d; margin: 0 auto; border: 2px solid #5c3a21; position: relative; }
+.shelter-door { width: 20px; height: 24px; background-color: #2c1e16; position: absolute; bottom: 0; left: 16px; border-radius: 8px 8px 0 0; }
+.food-bowl { position: absolute; bottom: 0; right: -14px; width: 14px; height: 6px; background-color: #e74c3c; border-top: 3px solid #f1c40f; }
+
+.scroll-arrow {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #f1c40f;
+    border: 3px solid #000;
+    padding: 6px 18px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 20;
+    animation: bounceArrow 1s infinite alternate;
+}
+.arrow-icon { font-size: 18px; margin-top: 2px; }
+@keyframes bounceArrow { from { transform: translate(-50%, 0); } to { transform: translate(-50%, -6px); } }
+
+/* ================================
+   ANDARES INFERIORES + CENÁRIOS
+   ================================ */
+.floors-container {
+    width: 100%;
+    background-color: #1b1410;
+}
+
+.floor {
+    border-bottom: 6px solid #000;
+}
+
+.floor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 18px 25px;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-bottom: 3px solid #000;
+}
+
+.floor-sanji { background-color: #4a2e1b; }
+.floor-chopper { background-color: #194d33; }
+.floor-franky { background-color: #263645; }
+.floor-nami { background-color: #9c640c; }
+.floor-robin { background-color: #4a235a; }
+
+.floor-info h3 { margin: 0 0 5px 0; font-size: 19px; color: #f1c40f; text-shadow: 2px 2px #000; }
+.floor-info p { margin: 0; font-size: 14px; color: #ecf0f1; }
+
+.floor-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.floor-actions button {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 8px 14px;
+    background-color: #f1c40f;
+    color: #000;
+    border: 3px solid #000;
+    cursor: pointer;
+}
+.floor-actions button:active:not(:disabled) { transform: scale(0.95); }
+.floor-actions button:disabled { background-color: #7f8c8d; color: #333; cursor: not-allowed; opacity: 0.7; }
+.btn-enhance { background-color: #ff9f43 !important; }
+.btn-enhance:disabled { background-color: #7f8c8d !important; }
+
+/* ================================
+   CENÁRIOS VISUAIS DE CADA ANDAR
+   ================================ */
+.floor-stage {
+    position: relative;
+    width: 100%;
+    height: 115px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 30px 10px 30px;
+    gap: 25px;
+    overflow: hidden;
+}
+
+.dynamic-items {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* --- CENÁRIO 1: COZINHA --- */
+.stage-kitchen {
+    background: repeating-linear-gradient(90deg, #6e472b, #6e472b 50px, #5c3a21 50px, #5c3a21 100px);
+    border-bottom: 10px solid #3a2212;
+}
+.kitchen-stove { position: relative; width: 65px; height: 55px; background-color: #7f8c8d; border: 3px solid #2c3e50; }
+.stove-pot { position: absolute; top: -18px; left: 10px; width: 40px; height: 18px; background-color: #34495e; border-bottom: 3px solid #000; }
+.stove-flame { position: absolute; top: -6px; left: 15px; width: 30px; height: 6px; background-color: #e67e22; box-shadow: 0 -3px 6px #f1c40f; }
+.super-flame { background-color: #00d2d3 !important; box-shadow: 0 -6px 14px #ff4500, 0 -2px 8px #00d2d3 !important; }
+
+.knife-rack {
+    position: absolute;
+    top: 18px;
+    left: 125px;
+    height: 6px;
+    min-width: 140px;
+    background-color: #2c3e50;
+    border: 2px solid #000;
+    display: flex;
+    gap: 8px;
+    padding-left: 6px;
+}
+.pixel-knife { width: 4px; height: 18px; background-color: #ecf0f1; border-top: 6px solid #000; margin-top: -4px; }
+.kitchen-counter { width: 90px; height: 45px; background-color: #8b5a2b; border: 3px solid #3a2212; position: relative; }
+.plate-stack { position: absolute; top: -12px; left: 15px; width: 24px; height: 12px; background: repeating-linear-gradient(to bottom, #fff, #fff 2px, #bdc3c7 2px, #bdc3c7 4px); }
+
+/* --- CENÁRIO 2: CONSULTÓRIO DO CHOPPER --- */
+.stage-clinic {
+    background: linear-gradient(to bottom, #d5f5e3 0%, #d5f5e3 75%, #a9dfbf 75%, #a9dfbf 100%);
+    border-bottom: 10px solid #145a32;
+}
+.clinic-cross { position: absolute; top: 15px; right: 30px; width: 10px; height: 30px; background-color: #e74c3c; }
+.clinic-cross::after { content: ''; position: absolute; top: 10px; left: -10px; width: 30px; height: 10px; background-color: #e74c3c; }
+
+.rumble-shelf {
+    position: absolute;
+    top: 22px;
+    right: 85px;
+    width: 65px;
+    height: 6px;
+    background-color: #7f8c8d;
+    display: flex;
+    justify-content: space-around;
+}
+.rumble-pill { width: 10px; height: 10px; background-color: #f1c40f; border: 2px solid #d35400; border-radius: 50%; margin-top: -10px; box-shadow: 0 0 6px #f1c40f; }
+.clinic-staff { display: flex; align-items: flex-end; gap: 12px; }
+.exam-table { width: 55px; height: 32px; background-color: #ecf0f1; border: 3px solid #7f8c8d; border-top: 6px solid #3498db; position: relative; }
+.table-pillow { width: 14px; height: 6px; background-color: #fff; position: absolute; top: -6px; left: 4px; }
+.pet-bed { width: 34px; height: 10px; background-color: #e74c3c; border-radius: 4px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 4px; }
+
+/* --- CENÁRIO 3: MARCENARIA DO FRANKY --- */
+.stage-workshop {
+    background: repeating-linear-gradient(90deg, #34495e, #34495e 60px, #2c3e50 60px, #2c3e50 120px);
+    border-bottom: 10px solid #1a252f;
+}
+.tool-board { position: absolute; top: 14px; right: 35px; width: 85px; height: 34px; background-color: #7f8c8d; border: 3px solid #2c3e50; display: flex; align-items: center; justify-content: space-around; }
+.wall-saw { width: 26px; height: 10px; background-color: #bdc3c7; border-left: 6px solid #e67e22; }
+.wall-hammer { width: 14px; height: 8px; background-color: #2c3e50; position: relative; }
+.wall-hammer::after { content: ''; position: absolute; top: 8px; left: 5px; width: 4px; height: 14px; background-color: #d35400; }
+.workshop-staff { display: flex; align-items: flex-end; gap: 14px; }
+
+.franky-hammer { position: absolute; top: 25px; right: -16px; width: 14px; height: 6px; background-color: #2c3e50; transform-origin: left bottom; animation: hammerHit 0.35s infinite alternate; }
+@keyframes hammerHit { from { transform: rotate(-45deg); } to { transform: rotate(25deg); } }
+
+.workbench { width: 75px; height: 36px; background-color: #a0522d; border: 3px solid #5c3a21; border-top: 6px solid #deb887; position: relative; }
+.wood-plank { position: absolute; top: -11px; left: 8px; width: 35px; height: 5px; background-color: #f39c12; }
+.cola-crate { position: absolute; top: -20px; right: 4px; background-color: #00a8ff; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 4px; border: 2px solid #000; }
+
+.mini-house { width: 36px; text-align: center; }
+.mini-roof { width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 12px solid #c0392b; }
+.super-roof { border-bottom-color: #f1c40f !important; }
+.mini-wall { width: 30px; height: 20px; background-color: #deb887; margin: 0 auto; border: 2px solid #5c3a21; position: relative; }
+.mini-wall::after { content: ''; position: absolute; bottom: 0; left: 9px; width: 8px; height: 12px; background-color: #2c1e16; }
+
+/* --- CENÁRIO 4: TESOURARIA DA NAMI --- */
+.stage-treasury {
+    background: repeating-linear-gradient(90deg, #b9770e, #b9770e 55px, #9c640c 55px, #9c640c 110px);
+    border-bottom: 10px solid #6e2c00;
+}
+
+.world-map {
+    position: absolute;
+    top: 14px;
+    right: 35px;
+    width: 80px;
+    height: 42px;
+    background-color: #fcf3cf;
+    border: 3px solid #5c3a21;
+}
+.map-island-1 { position: absolute; top: 8px; left: 10px; width: 22px; height: 14px; background-color: #27ae60; }
+.map-island-2 { position: absolute; bottom: 8px; right: 12px; width: 26px; height: 12px; background-color: #27ae60; }
+
+.treasury-staff {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.finance-desk {
+    width: 72px;
+    height: 34px;
+    background-color: #6e2c00;
+    border: 3px solid #3a1800;
+    border-top: 5px solid #d4ac0d;
+    position: relative;
+}
+
+.ledger-book {
+    position: absolute;
+    top: -12px;
+    left: 8px;
+    width: 18px;
+    height: 12px;
+    background-color: #fff;
+    color: #000;
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #000;
+}
+
+.golden-safe {
+    position: absolute;
+    top: -22px;
+    right: 4px;
+    background-color: #f1c40f;
+    color: #000;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 3px 4px;
+    border: 2px solid #000;
+    box-shadow: 0 0 8px #f1c40f;
+}
+
+.berry-pile {
+    width: 24px;
+    height: 18px;
+    background: repeating-linear-gradient(to bottom, #f1c40f, #f1c40f 4px, #d4ac0d 4px, #d4ac0d 6px);
+    border: 2px solid #7d6608;
+    border-radius: 3px 3px 0 0;
+}
+
+/* --- CENÁRIO 5: BIBLIOTECA DA ROBIN --- */
+.stage-robin {
+    background: repeating-linear-gradient(90deg, #5b2c6f, #5b2c6f 50px, #4a235a 50px, #4a235a 100px);
+    border-bottom: 10px solid #2e1437;
+}
+
+.wall-poster {
+    position: absolute;
+    top: 14px;
+    right: 35px;
+    width: 32px;
+    height: 40px;
+    background-color: #fcf3cf;
+    border: 3px solid #2e1437;
+}
+.wall-poster::after {
+    content: '🐾';
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    font-size: 14px;
+}
+
+.library-staff {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.reading-desk {
+    width: 72px;
+    height: 34px;
+    background-color: #5c3a21;
+    border: 3px solid #2c1e16;
+    border-top: 5px solid #8b5a2b;
+    position: relative;
+}
+
+.open-book {
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    width: 22px;
+    height: 8px;
+    background-color: #fff;
+    border: 2px solid #000;
+}
+
+.poneglyph-block {
+    position: absolute;
+    top: -22px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    background-color: #1f3a93;
+    border: 2px solid #000;
+    box-shadow: 0 0 10px #00d2d3;
+}
+
+.adoption-book {
+    width: 18px;
+    height: 28px;
+    background-color: #9b59b6;
+    border: 2px solid #000;
+    border-left: 5px solid #f1c40f;
+}
+
+.scroll-up-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #000;
+    color: #f1c40f;
+    border: none;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* PARTÍCULAS DE COMIDA */
+.food-pixel {
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    pointer-events: none;
+    z-index: 50;
+    animation: flyFood 0.5s ease-out forwards;
+}
+
+@keyframes flyFood {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--x), -80px) rotate(180deg); opacity: 0; }
+}
