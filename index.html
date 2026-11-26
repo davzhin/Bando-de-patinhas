@@ -3,12 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sanji's Stray Rescue</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Bando de patinhas</title>
+    <link rel="stylesheet" href="css/estilo.css" />
   </head>
   <body>
-    <!-- HUD Fixo no Topo -->
-    <div class="hud">
+    <!-- ==========================================
+         TELA INICIAL COM REGRAS
+         ========================================== -->
+    <div id="tela-inicio" class="modal-overlay">
+      <div class="modal-box">
+        <h1>🐾 Bando de patinhas</h1>
+        <p class="modal-subtitulo">
+          Ajude o Sanji e a tripulação a alimentar e resgatar animais de rua!
+        </p>
+
+        <div class="regras-lista">
+          <h3>📜 Como Jogar:</h3>
+          <ul>
+            <li>
+              <strong>Clique no Sanji:</strong>
+              Cozinhe pratos para ganhar
+              <em>Patinhas</em>
+              .
+            </li>
+            <li>
+              <strong>Desça para os Andares:</strong>
+              Use suas Patinhas para chamar Chopper, Franky, Nami e Robin, que
+              geram pontos automaticamente por segundo.
+            </li>
+            <li>
+              <strong>Aprimoramentos:</strong>
+              Compre itens especiais (como
+              <em>Diable Jambe</em>
+              e
+              <em>Rumble Ball</em>
+              ) para dobrar seus ganhos.
+            </li>
+            <li>
+              <strong>Objetivo Final:</strong>
+              Junte
+              <strong>5.000 Patinhas</strong>
+              para inaugurar o Santuário e vencer a partida!
+            </li>
+          </ul>
+        </div>
+        <button id="btn-iniciar" class="btn-modal">🍳 Começar Resgate</button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TELA DE FIM DE PARTIDA / VITÓRIA
+         ========================================== -->
+    <div id="tela-vitoria" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h1>🏆 Santuário Inaugurado!</h1>
+        <p class="modal-subtitulo">
+          Parabéns! Todos os animais ganharam um lar seguro no navio.
+        </p>
+
+        <div class="regras-lista">
+          <h3>📊 Resumo da Partida:</h3>
+          <p>
+            🐾 Patinhas acumuladas:
+            <strong id="resumo-patinhas">0</strong>
+          </p>
+          <p>
+            👆 Total de cliques no Sanji:
+            <strong id="resumo-cliques">0</strong>
+          </p>
+          <p>
+            🏴‍☠️ Ajudantes recrutados:
+            <strong id="resumo-tripulacao">0</strong>
+          </p>
+        </div>
+
+        <button id="btn-jogar-novamente" class="btn-modal">
+          🔄 Jogar Novamente
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         BARRA SUPERIOR FIXA (HUD)
+         ========================================== -->
+    <header class="hud">
       <div class="hud-item">
         🐾 Patinhas:
         <span id="score">0</span>
@@ -17,9 +95,22 @@
         ⚡ Por seg:
         <span id="rps">0</span>
       </div>
-    </div>
 
-    <!-- TELA 1: CONVÉS PRINCIPAL -->
+      <div class="hud-controles">
+        <!-- Libera quando chegar em 10.000 Patinhas -->
+        <button id="btn-vitoria" class="btn-hud btn-meta" disabled>
+          🏆 Inaugurar Santuário (10.000)
+        </button>
+        <!-- Reinicia a partida a qualquer momento sem F5 -->
+        <button id="btn-reiniciar-hud" class="btn-hud btn-reset">
+          🔄 Reiniciar
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         TELA 1: CONVÉS PRINCIPAL
+         ========================================== -->
     <section class="main-stage" id="top-stage">
       <div class="scenery">
         <div class="sun"></div>
@@ -63,9 +154,9 @@
           </div>
         </div>
 
-        <!-- SANJI NO CENTRO -->
+        <!-- SANJI NO CENTRO (Alvo do clique principal) -->
         <div class="sanji-wrapper">
-          <div id="sanji" onclick="flipPan(event)">
+          <div id="sanji" title="Clique para cozinhar!">
             <div class="head">
               <div class="hair"></div>
               <div class="hair-drop"></div>
@@ -125,13 +216,15 @@
         </div>
       </div>
 
-      <button class="scroll-arrow" onclick="scrollToFloors()">
+      <button id="btn-descer" class="scroll-arrow">
         <span>ANDARES & OFICINAS</span>
         <div class="arrow-icon">▼</div>
       </button>
     </section>
 
-    <!-- TELA 2: ANDARES INTERATIVOS -->
+    <!-- ==========================================
+         TELA 2: ANDARES INTERATIVOS (LOJA)
+         ========================================== -->
     <section class="floors-container" id="floors">
       <!-- ANDAR 1: COZINHA DO SANJI -->
       <div class="floor floor-sanji">
@@ -145,7 +238,7 @@
             </p>
           </div>
           <div class="floor-actions">
-            <button id="btn-knife" onclick="buyKnife()">
+            <button id="btn-knife">
               🔪 Afiar Facas (+1 Clique)
               <br />
               <small>
@@ -153,11 +246,7 @@
                 <span id="knife-cost">15</span>
               </small>
             </button>
-            <button
-              id="btn-diable"
-              class="btn-enhance"
-              onclick="buyDiableJambe()"
-            >
+            <button id="btn-diable" class="btn-enhance">
               🔥 Diable Jambe (2x Clique)
               <br />
               <small id="diable-status">Custo: 50</small>
@@ -191,7 +280,7 @@
             </p>
           </div>
           <div class="floor-actions">
-            <button id="btn-chopper" onclick="buyChopper()">
+            <button id="btn-chopper">
               🩺 Chamar Chopper (+1/s)
               <br />
               <small>
@@ -199,11 +288,7 @@
                 <span id="chopper-cost">10</span>
               </small>
             </button>
-            <button
-              id="btn-rumble"
-              class="btn-enhance"
-              onclick="buyRumbleBall()"
-            >
+            <button id="btn-rumble" class="btn-enhance">
               💊 Rumble Ball (2x Chopper)
               <br />
               <small id="rumble-status">Custo: 60</small>
@@ -251,7 +336,7 @@
             </p>
           </div>
           <div class="floor-actions">
-            <button id="btn-franky" onclick="buyFranky()">
+            <button id="btn-franky">
               🔨 Construir Abrigo (+5/s)
               <br />
               <small>
@@ -259,7 +344,7 @@
                 <span id="franky-cost">50</span>
               </small>
             </button>
-            <button id="btn-cola" class="btn-enhance" onclick="buySuperCola()">
+            <button id="btn-cola" class="btn-enhance">
               🥤 Super Cola (2x Abrigos)
               <br />
               <small id="cola-status">Custo: 150</small>
@@ -304,7 +389,7 @@
             </p>
           </div>
           <div class="floor-actions">
-            <button id="btn-nami" onclick="buyNami()">
+            <button id="btn-nami">
               💰 Arrecadar Berries (+15/s)
               <br />
               <small>
@@ -312,11 +397,7 @@
                 <span id="nami-cost">200</span>
               </small>
             </button>
-            <button
-              id="btn-vault"
-              class="btn-enhance"
-              onclick="buyBerryVault()"
-            >
+            <button id="btn-vault" class="btn-enhance">
               🏦 Cofre de Berries (2x Nami)
               <br />
               <small id="vault-status">Custo: 500</small>
@@ -364,7 +445,7 @@
             </p>
           </div>
           <div class="floor-actions">
-            <button id="btn-robin" onclick="buyRobin()">
+            <button id="btn-robin">
               📖 Divulgar Adoção (+40/s)
               <br />
               <small>
@@ -372,11 +453,7 @@
                 <span id="robin-cost">800</span>
               </small>
             </button>
-            <button
-              id="btn-poneglyph"
-              class="btn-enhance"
-              onclick="buyPoneglyph()"
-            >
+            <button id="btn-poneglyph" class="btn-enhance">
               🟦 Poneglyph (2x Robin)
               <br />
               <small id="poneglyph-status">Custo: 2000</small>
@@ -387,7 +464,6 @@
         <div class="floor-stage stage-robin">
           <div class="wall-poster"></div>
 
-          <!-- Robin + Escrivaninha na Biblioteca -->
           <div class="library-staff hidden" id="library-staff">
             <div class="robin">
               <div class="robin-hair-back"></div>
@@ -403,16 +479,16 @@
             </div>
           </div>
 
-          <!-- Livros de Adoção aparecem aqui -->
           <div class="dynamic-items" id="robin-books-list"></div>
         </div>
       </div>
 
-      <button class="scroll-up-btn" onclick="scrollToTop()">
+      <button id="btn-subir" class="scroll-up-btn">
         ▲ Voltar para o Convés
       </button>
     </section>
 
-    <script src="script.js"></script>
+    <!-- Script ligado no final do body com caminho exato da pasta js/ -->
+    <script src="js/jogo.js"></script>
   </body>
 </html>
