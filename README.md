@@ -1,4 +1,4 @@
-🐾 Baratie das Patinhas
+🐾 Bando de Patinhas
 
 [![Jogar Agora](https://img.shields.io/badge/▶_JOGAR_AGORA-2ecc71?style=for-the-badge&logo=githubpages&logoColor=white)](https://davzhin.github.io/Bando-de-patinhas/)
 
@@ -16,7 +16,7 @@ Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS
    - **Andar 3 (Marcenaria do Franky):** Constrói abrigos com bônus de *Super Cola*.
    - **Andar 4 (Tesouraria da Nami):** Arrecada Berries para financiar os resgates.
    - **Andar 5 (Biblioteca da Robin):** Organiza campanhas de adoção com apoio dos *Poneglyphs*.
-3. **Condição de Vitória:** Acumule **5.000 Patinhas** para habilitar o botão **🏆 Inaugurar Santuário** no topo da tela e concluir a partida com o resumo de estatísticas.
+3. **Condição de Vitória:** Acumule **10.000 Patinhas** para habilitar o botão **🏆 Inaugurar Santuário** no topo da tela e concluir a partida com o resumo de estatísticas.
 4. **Reinício sem Recarregar:** Utilize o botão **🔄 Reiniciar** (na barra superior ou na tela de vitória) para zerar o progresso e recomeçar a partida sem precisar recarregar a página.
 
 ---
@@ -40,4 +40,4 @@ Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS
 
    - Testes e Correções: Sempre que algo travava ou ficava desalinhado (como elementos do cenário bloqueando o clique no Sanji), usei o chat para debugar o motivo do erro e ajustar o código.
 
-   - Todo o fluxo do jogo, escolha de tema, balanceamento dos custos, testes no navegador e organização final do repositório foram acompanhados, testados e compreendidos por mim ao longo do desenvolvimento.
+Todo o fluxo do jogo, escolha de tema, balanceamento dos custos, testes no navegador e organização final do repositório foram acompanhados, testados e compreendidos por mim ao longo do desenvolvimento.
