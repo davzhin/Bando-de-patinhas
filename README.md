@@ -2,10 +2,9 @@
 
 [![Jogar Agora](https://img.shields.io/badge/▶_JOGAR_AGORA-2ecc71?style=for-the-badge&logo=githubpages&logoColor=white)](https://davzhin.github.io/Bando-de-patinhas/)
 
-Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS3** para a Avaliação C3 da disciplina de Desenvolvimento Web. Inspirado no universo de *One Piece*, o objetivo é ajudar o cozinheiro Sanji e sua tripulação a preparar refeições, construir abrigos e arrecadar recursos para resgatar animais de rua.
-
 *(Se o botão acima não abrir direto, acesse: https://davzhin.github.io/Bando-de-patinhas/)*
 
+Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS3** para a Avaliação C3 da disciplina de Desenvolvimento Web. Inspirado no universo de *One Piece*, o objetivo é ajudar o cozinheiro Sanji e sua tripulação a preparar refeições, construir abrigos e arrecadar recursos para resgatar animais de rua.
 ---
 
 ## 🎮 Como Jogar e Regras
