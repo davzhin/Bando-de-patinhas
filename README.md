@@ -30,8 +30,8 @@ Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS
 │   └── estilo.css    # Estilização, animações e sprites em pixel art puro
 ├── js/
 │   └── jogo.js       # Estado do jogo, eventos (addEventListener) e loop idle
-└── README.md         # Documentação do projeto```
-
+└── README.md         # Documentação do projeto
+```
 ##🤖 Uso de Inteligência Artificial
 Para desenvolver este projeto, utilizei um assistente de IA (Gemini) como apoio contínuo em boa parte da construção do código, funcionando praticamente como um tutor enquanto eu montava e entendia cada etapa do jogo na prática:
 
