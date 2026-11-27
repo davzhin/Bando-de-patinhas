@@ -33,12 +33,12 @@ Jogo incremental (*clicker/idle*) desenvolvido em **JavaScript puro, HTML5 e CSS
 └── README.md         # Documentação do projeto
 ```
 ## 🤖 Uso de Inteligência Artificial
-Para desenvolver este projeto, utilizei um assistente de IA (Gemini) como apoio contínuo em boa parte da construção do código, funcionando praticamente como um tutor enquanto eu montava e entendia cada etapa do jogo na prática:
+   - Para desenvolver este projeto, utilizei um assistente de IA (Gemini) como apoio contínuo em boa parte da construção do código, funcionando praticamente como um tutor enquanto eu montava e entendia cada etapa do jogo na prática:
 
-Visual e Pixel Art no CSS: Como desenhar personagens e cenários inteiros só com CSS dá bastante trabalho, pedi ajuda para estruturar os blocos dos tripulantes e fui aprendendo na prática como funcionam propriedades como position: relative/absolute, camadas com z-index, gradientes de fundo e até truques com box-shadow para duplicar detalhes (como os olhos da Nami e da Robin).
+   - Visual e Pixel Art no CSS: Como desenhar personagens e cenários inteiros só com CSS dá bastante trabalho, pedi ajuda para estruturar os blocos dos tripulantes e fui aprendendo na prática como funcionam propriedades como position: relative/absolute, camadas com z-index, gradientes de fundo e até truques com box-shadow para duplicar detalhes (como os olhos da Nami e da Robin).
 
-Lógica em JavaScript e Regras da C3: Usei a IA para me guiar na organização da lógica do jogo, entendendo como agrupar todas as variáveis dentro de um único objeto (estadoJogo), como trocar os onclick antigos por addEventListener e como montar a função de reiniciar a partida zerando tudo por código sem precisar dar F5.
+   - Lógica em JavaScript e Regras da C3: Usei a IA para me guiar na organização da lógica do jogo, entendendo como agrupar todas as variáveis dentro de um único objeto (estadoJogo), como trocar os onclick antigos por addEventListener e como montar a função de reiniciar a partida zerando tudo por código sem precisar dar F5.
 
-Testes e Correções: Sempre que algo travava ou ficava desalinhado (como elementos do cenário bloqueando o clique no Sanji), usei o chat para debugar o motivo do erro e ajustar o código.
+   - Testes e Correções: Sempre que algo travava ou ficava desalinhado (como elementos do cenário bloqueando o clique no Sanji), usei o chat para debugar o motivo do erro e ajustar o código.
 
-Todo o fluxo do jogo, escolha de tema, balanceamento dos custos, testes no navegador e organização final do repositório foram acompanhados, testados e compreendidos por mim ao longo do desenvolvimento.
+   - Todo o fluxo do jogo, escolha de tema, balanceamento dos custos, testes no navegador e organização final do repositório foram acompanhados, testados e compreendidos por mim ao longo do desenvolvimento.
