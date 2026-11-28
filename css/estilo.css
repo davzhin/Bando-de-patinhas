@@ -764,10 +764,10 @@ body {
 }
 
 .modal-box {
-    margin: auto; /* centraliza quando cabe, e deixa rolar quando não cabe */
+    margin: auto;
 }
 
-/* Bloco de doação / QR code */
+/* Bloco de doação */
 .doacao-box {
     background-color: rgba(0, 0, 0, 0.45);
     border: 2px solid #f1c40f;
@@ -787,11 +787,13 @@ body {
     margin: 0 0 10px 0;
 }
 
-.qrcode-img {
+/* QR code */
+.doacao-box .qrcode-img {
     display: block;
-    width: 180px;
+    width: 180px !important;
+    height: 180px !important;
     max-width: 100%;
-    height: auto;
+    object-fit: contain;
     margin: 10px auto;
     background-color: #fff;
     padding: 8px;
