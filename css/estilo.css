@@ -758,3 +758,48 @@ body {
     0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
     100% { transform: translate(var(--x), -80px) rotate(180deg); opacity: 0; }
 }
+.modal-overlay {
+    overflow-y: auto;
+    align-items: flex-start;
+}
+
+.modal-box {
+    margin: auto; /* centraliza quando cabe, e deixa rolar quando não cabe */
+}
+
+/* Bloco de doação / QR code */
+.doacao-box {
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 2px solid #f1c40f;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.doacao-box h3 {
+    margin: 0 0 8px 0;
+    color: #ff9f43;
+    font-size: 16px;
+}
+
+.doacao-box p {
+    font-size: 13px;
+    margin: 0 0 10px 0;
+}
+
+.qrcode-img {
+    display: block;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+    margin: 10px auto;
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.doacao-box small {
+    display: block;
+    font-size: 12px;
+    line-height: 1.6;
+}
